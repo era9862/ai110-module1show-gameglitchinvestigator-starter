@@ -5,8 +5,12 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
+The game looked like a normal game of guess from range 1 to 100. The first input I put in was 1 but the hint says go lower as 100 says go higher. Since the number is 75, the numbers lower says its lower as higher says higher. Therefore, the inequalities are incorrect. When I start a new game, the game does not reset but the score reset to -5
+
 - List at least two concrete bugs you noticed at the start  
-  (for example: "the hints were backwards").
+  1. Inequalities are incorrect
+  2. I found was that new Game button does not reset to a new game.
+  3. When I enter a non-digit, it goes to negative attempts left once there are not more attempts
 
 **Bug Reproduction Log**
 
@@ -14,9 +18,9 @@ Document at least 3 bugs you found. Add rows as needed.
 
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+|1 as input|Expected to go higher|Hint says go higher|None|
+|Click new game|Expected a new game develop|New game started but does not allow any input|None|
+|R|Not allow non-digit message and not take it as an attempt|Allowed it multiple times to get a negative attempts left|None|
 
 ---
 
