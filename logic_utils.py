@@ -47,12 +47,12 @@ def check_guess(guess, secret):
         else:
             return "Too Low", "📈 Go HIGHER!"
     except TypeError:
-        g = str(guess)
+        g = guess
         if g == secret:
             return "Win", "🎉 Correct!"
         if g > secret:
-            return "Too Low", "📉 Go HIGHER!"
-        return "Too High", "📈 Go LOWER!"
+            return "Too High", "📉 Go LOWER!"
+        return "Too Low", "📈 Go HIGHER!"
 
 
 def update_score(current_score: int, outcome: str, attempt_number: int):
