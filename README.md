@@ -26,18 +26,21 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [ ] Describe the game's purpose.
+The purpose of the game is to guess the correct number.
 - [ ] Detail which bugs you found.
+I found that the inequalities was comparing the string instead of int. Also the game was not reseting. Also, the negative attempts when we are not guessing a digit.
 - [ ] Explain what fixes you applied.
+I fixed the comparison to int and ensure the inequalties were correct from guess and actual number. I also fixed the reseting the game. Lastly the number of attempts will end at 0 instead of negative numbers.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User enters a guess of a number
+2. Game returns either "Too Low" or "Too High"
+3. User enters a guess of a number, and the game shows either "Too Low" or "Too High"
+4. Score updates correctly after each guess
+5. Game ends after the correct guess
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
