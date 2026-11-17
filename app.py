@@ -1,11 +1,20 @@
+import logging
 import random
 import streamlit as st
+
+from ai_coach import get_coach_hint
 
 from logic_utils import (
     get_range_for_difficulty,
     parse_guess,
     check_guess,
     update_score,
+)
+
+logging.basicConfig(
+    filename="game.log",
+    level=logging.INFO,
+    format="%(asctime)s %(name)s %(levelname)s %(message)s",
 )
 
 st.set_page_config(page_title="Glitchy Guesser", page_icon="🎮")
@@ -112,7 +121,15 @@ if submit:
         outcome, message = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
-            st.warning(message)
+            coach_text, source = get_coach_hint(
+                guess_int,
+                st.session_state.secret,
+                low,
+                high,
+                st.session_state.history[:-1],
+            )
+            st.warning(coach_text)
+            st.caption("Hint source: " + ("AI coach" if source == "ai" else "rule-based"))
 
         st.session_state.score = update_score(
             current_score=st.session_state.score,

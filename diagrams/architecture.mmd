@@ -1,0 +1,50 @@
+flowchart TD
+    Player([Player]) -->|difficulty, guess, new game| UI
+
+    subgraph App["app.py - Streamlit UI"]
+        UI[Sidebar and guess form]
+        State[(st.session_state: secret, attempts, score, status, history)]
+        UI <--> State
+    end
+
+    subgraph Logic["logic_utils.py - game logic"]
+        Range[get_range_for_difficulty]
+        Parse[parse_guess]
+        Check[check_guess - ground truth outcome]
+        Score[update_score]
+    end
+
+    subgraph Coach["ai_coach.py - AI hint coach"]
+        Ask[Ask Claude for a one-line hint]
+        Guard{Guardrail validator: no secret leak, correct direction}
+        Fallback[Rule-based hint from check_guess]
+        Ask --> Guard
+        Guard -->|fail, retry up to 2x| Ask
+        Guard -->|retries exhausted or API error or no key| Fallback
+    end
+
+    Claude[(Claude API)]
+    Log[/game.log: accepted, rejected, fallback events/]
+
+    UI -->|difficulty| Range
+    Range -->|low, high| State
+    UI -->|raw input| Parse
+    Parse -->|valid int or error| UI
+    UI -->|guess, secret| Check
+    Check -->|outcome| Ask
+    Ask <-->|prompt / reply| Claude
+    Guard -->|pass| UI
+    Fallback --> UI
+    UI -->|outcome, attempt| Score
+    Score -->|new score| State
+    UI -->|hint and source label| Player
+
+    Coach -.->|logs| Log
+    Player -.->|human review of hints and log| Log
+
+    subgraph Tests["pytest - automated evaluation"]
+        T1[test_game_logic.py: check_guess]
+        T2[test_ai_coach.py: guardrail and fallback with fake client]
+    end
+    T1 -.->|verifies| Check
+    T2 -.->|verifies| Coach
